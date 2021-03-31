@@ -1,0 +1,36 @@
+# _*_coding:utf-8_*_
+# 齐鲁工业大学（山东省科学院）
+# 学生：权志邦     导师：孙涛
+# 开发时间：2021/3/29 22:01
+import cv2
+from matplotlib import pyplot as plt
+import numpy as np
+img = cv2.imread('001.png')
+gray_img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+
+# 拉普拉斯边缘检测
+lap = cv2.Laplacian(gray_img, cv2.CV_64F) # 拉普拉斯边缘检测
+lap = np.uint8(np.absolute(lap)) # 对lap去绝对值
+# 对二值图像进行反转，黑白颠倒
+lap = cv2.bitwise_not(lap)
+
+# Sobel边缘检测
+sobel = cv2.Sobel(gray_img, cv2.CV_64F, 0, 1,ksize=5)
+# 对二值图像进行反转，黑白颠倒
+sobel = cv2.bitwise_not(sobel)
+
+# 展示效果
+plt.subplot(131)
+plt.imshow(gray_img,cmap=plt.cm.gray)
+plt.title("(A)")
+
+plt.subplot(132)
+plt.imshow(lap, cmap=plt.cm.gray)
+plt.title("(B)")#拉普拉斯边缘检测
+
+plt.subplot(133)
+plt.imshow(sobel, cmap=plt.cm.gray)
+plt.title("(C)")#Sobel边缘检测
+
+plt.tight_layout()
+plt.show()
