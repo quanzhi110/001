@@ -1,0 +1,47 @@
+# _*_coding:utf-8_*_
+# 齐鲁工业大学（山东省科学院）
+# 学生：权志邦     导师：孙涛
+# 开发时间：2021/3/29 21:19
+#sobel边缘检测，区分不同的方向
+import cv2
+from matplotlib import pyplot as plt
+import numpy as np
+
+img = cv2.imread('pig.png')
+gray_img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+
+# Sobel边缘检测, dy=1 表示在y轴方向上进行边缘检测。
+# 对y轴方向上取导，仅在y轴方向的边缘会被忽略。
+sobel01 = cv2.Sobel(gray_img, cv2.CV_64F, 0, 1)
+# 对二值图像进行反转 黑白颠倒
+sebel01 = cv2.bitwise_not(sobel01)
+
+
+# Sobel边缘检测，dx = 1 表示在x轴方向上进行边缘检测。
+# 对x轴方向取导，仅在x轴方向的边缘会被忽略。
+sobel10 = cv2.Sobel(gray_img, cv2.CV_64F, 1, 0)
+# 对二值图像进行反转，黑白颠倒
+sobel10 = cv2.bitwise_not(sobel10)
+
+# Sobel边缘检测，dx = 1, dy = 1
+sobel11 = cv2.Sobel(gray_img, cv2.CV_64F, 1, 1)
+sobel11 = cv2.bitwise_not(sobel11)
+
+plt.subplot(221)
+plt.imshow(gray_img,cmap=plt.cm.gray)
+plt.title("(A)")
+
+plt.subplot(222)
+plt.imshow(sobel01,cmap=plt.cm.gray)
+plt.title("(B)")
+
+plt.subplot(223)
+plt.imshow(sobel10, cmap=plt.cm.gray)
+plt.title("(C)")
+
+plt.subplot(224)
+plt.imshow(sobel11, cmap=plt.cm.gray)
+plt.title("(D)")
+
+plt.tight_layout()
+plt.show()
